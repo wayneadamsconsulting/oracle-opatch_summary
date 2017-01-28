@@ -48,7 +48,7 @@ IFS="|"
 # Note: this perl one-liner is probably needlessly complex but was an
 # interesting exercise (probably shouldn't be a one-liner) and I wanted
 # to run opatch only once.
-$ORACLE_HOME/OPatch/opatch lsinventory |perl -0777 -nle 'print "$1 | $2 \n" while m/Oracle Home\s+:\s([\w\/\.]+)\s+Central.*\s+from.*\s+OPatch version\s+:\s([\d\.]+)/mg; print "$1|$2|$4\n" while m/Patch\s+(\d+)\s+:\s+applied on (\w+\s\w+\s\d+\s\d+:\d+:\d+\s\w+\s\d+)\s+(Unique.*)*\s+(Patch description:\s+"(.*)")*/gm' |while read pnum pdate pdesc
+$ORACLE_HOME/OPatch/opatch lsinventory |perl -0777 -nle 'print "$1 | $2 \n" while m/Oracle Home\s+:\s([\w\/\.]+)\s+Central.*\s+from.*\s+OPatch version\s+:\s([\d\.]+)/mg; print "$1|$2|$5\n" while m/Patch\s+(\d+)\s+:\s+applied on (\w+\s\w+\s\d+\s\d+:\d+:\d+\s\w+\s\d+)\s+(Unique.*)*\s+(Patch description:\s+"(.*)")*/gm' |while read pnum pdate pdesc
 do
     # First line returned is the opatch version and oracle_home location,
     # So, print out that info, then skip to the next line
@@ -66,7 +66,7 @@ do
     export pnum
 
     # If no patch description from opatch, fetch it from $ORACLE_HOME/inventory/oneoffs
-    if [[ -z $pdesc ]]; then
+    if [[ -z $pdesc || $pdesc = "One-off" ]]; then
         export PRE_11g_ONEOFF_INV_FILE=$ORACLE_HOME/inventory/oneoffs/$pnum/etc/config/inventory
         export POST_11g_ONEOFF_INV_FILE=$ORACLE_HOME/inventory/oneoffs/$pnum/etc/config/inventory.xml
 

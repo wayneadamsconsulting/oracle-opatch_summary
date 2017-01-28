@@ -2,7 +2,7 @@
 
 ## Wrapper around Oracle's OPatch lsinventory functionality to provide an easier to read summary view.
 
-Tested against opatch 12.2.0.1.8, 11.2.0.3.12, 11.1.0.10.4, 10.2.0.3.2
+Tested against opatch 13.9.1.0.0, 12.2.0.1.8, 11.2.0.3.12, 11.1.0.10.4, 10.2.0.3.2
 
 ### Example output
 
